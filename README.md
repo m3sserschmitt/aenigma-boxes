@@ -70,18 +70,23 @@ The repository already includes a ready-made `Vagrantfile`, so this is all you n
    Vagrant.configure("2") do |config|
      config.vm.box     = "m3sserschmitt/aenigma5"
      config.vm.box_url = "https://boxes.aenigma.ro/metadata.json"
+     config.vm.define  "aenigma5"
 
      config.vm.provider "virtualbox" do |vb|
+       vb.name   = "aenigma5"
        vb.memory = 2048
        vb.cpus   = 2
      end
 
      config.vm.provider "libvirt" do |lv|
+       lv.default_prefix = ""
        lv.memory = 2048
        lv.cpus   = 2
      end
    end
    ```
+
+   > `vb.name` / `lv.default_prefix` + `config.vm.define` control the name shown in VirtualBox Manager or virt-manager — without these, the VM name defaults to something like your project folder name plus "default", which isn't very descriptive.
 
 3. Open a terminal in that folder and run:
 
