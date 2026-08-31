@@ -23,10 +23,12 @@ If you're on Ubuntu or Debian, open a terminal and run:
 
 ```bash
 sudo apt update
-sudo apt install -y qemu-system-x86 libvirt-daemon-system libvirt-clients bridge-utils virt-manager
+sudo apt install -y qemu-system-x86 libvirt-daemon-system libvirt-clients bridge-utils virt-manager libvirt-dev
 ```
 
 > Use `qemu-system-arm` instead of `qemu-system-x86` if you're on an ARM64 machine (e.g. Apple Silicon running Linux). On newer Debian/Ubuntu releases, the older `qemu-kvm` package name no longer works directly — it now points to one of these architecture-specific packages, so you need to pick the right one yourself.
+
+> `libvirt-dev` is required to install the `vagrant-libvirt` plugin below — without it, the plugin install fails with a missing-library error. On Fedora/RHEL-based distros the equivalent package is called `libvirt-devel` instead.
 
 This also installs **virt-manager**, a graphical tool for managing your VMs (start/stop/pause, view the VM's screen, check resource usage) if you'd rather not use the terminal after setup. You can open it any time by running `virt-manager` or finding "Virtual Machine Manager" in your applications menu.
 
@@ -68,6 +70,16 @@ The repository already includes a ready-made `Vagrantfile`, so this is all you n
    Vagrant.configure("2") do |config|
      config.vm.box     = "m3sserschmitt/aenigma5"
      config.vm.box_url = "https://boxes.aenigma.ro/metadata.json"
+
+     config.vm.provider "virtualbox" do |vb|
+       vb.memory = 2048
+       vb.cpus   = 2
+     end
+
+     config.vm.provider "libvirt" do |lv|
+       lv.memory = 2048
+       lv.cpus   = 2
+     end
    end
    ```
 
