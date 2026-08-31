@@ -4,8 +4,7 @@ Ready-to-run virtual images for Aenigma, built for both **VirtualBox** and **lib
 
 ## Step 1: Install Vagrant
 
-Download and install Vagrant from the official page for your operating system:
-👉 https://developer.hashicorp.com/vagrant/downloads
+Download and install Vagrant from the official page for your operating system: https://developer.hashicorp.com/vagrant/downloads
 
 ## Step 2: Install a virtualization provider
 
@@ -66,33 +65,35 @@ The repository already includes a ready-made `Vagrantfile`, so this is all you n
 1. Create a new empty folder anywhere on your computer.
 2. Inside it, create a file named exactly `Vagrantfile` (no file extension) with this content:
 
-   ```ruby
-   Vagrant.configure("2") do |config|
-     config.vm.box     = "m3sserschmitt/aenigma5"
-     config.vm.box_url = "https://boxes.aenigma.ro/metadata.json"
-     config.vm.define  "aenigma5"
+    ```ruby
+      Vagrant.configure("2") do |config|
+        config.vm.box     = "m3sserschmitt/aenigma5"
+        config.vm.box_url = "https://boxes.aenigma.ro/metadata.json"
+        config.vm.define  "aenigma5"
 
-     config.vm.provider "virtualbox" do |vb|
-       vb.name   = "aenigma5"
-       vb.memory = 2048
-       vb.cpus   = 2
-     end
+        config.vm.provider "virtualbox" do |vb|
+          vb.name   = "aenigma5"
+          vb.memory = 2048
+          vb.cpus   = 2
+        end
 
-     config.vm.provider "libvirt" do |lv|
-       lv.default_prefix = ""
-       lv.memory = 2048
-       lv.cpus   = 2
-     end
-   end
-   ```
+        config.vm.provider "libvirt" do |lv|
+          lv.default_prefix = ""
+          lv.memory = 2048
+          lv.cpus   = 2
+        end
 
-   > `vb.name` / `lv.default_prefix` + `config.vm.define` control the name shown in VirtualBox Manager or virt-manager — without these, the VM name defaults to something like your project folder name plus "default", which isn't very descriptive.
+        config.vm.synced_folder ".", "/vagrant", disabled: true
+      end
+    ```
+
+    > `vb.name` / `lv.default_prefix` + `config.vm.define` control the name shown in VirtualBox Manager or virt-manager — without these, the VM name defaults to something like your project folder name plus "default", which isn't very descriptive.
 
 3. Open a terminal in that folder and run:
 
-   ```bash
-   vagrant up
-   ```
+    ```bash
+    vagrant up
+    ```
 
 Either way, Vagrant will automatically detect whichever provider you installed (VirtualBox or libvirt) and download the matching image the first time you run it — this may take a few minutes depending on your internet connection.
 
@@ -133,3 +134,8 @@ vagrant box update
   vagrant up --provider=libvirt
   ```
 - On Linux, if `vagrant up` complains about permissions with libvirt, make sure you ran `newgrp libvirt` (or log out and back in) after the `usermod` step above.
+
+- **virt-manager fails to connect to `qemu:///system` the first time you open it** — this usually happens because your user's `libvirt` group membership (from the `usermod` step) hasn't been picked up by your desktop session yet, even if it worked in a terminal via `newgrp`. Logging out and back in (or rebooting) refreshes your full session's group membership and typically resolves it. If it persists after that, try:
+  - Confirming the `libvirtd` service is actually running: `sudo systemctl status libvirtd`
+  - Manually adding the connection in virt-manager via **File → Add Connection…**, selecting **QEMU/KVM**, and leaving "Connect to remote host" unchecked
+  - Double-checking your user is really in the group: `groups $(whoami)` should list `libvirt`
