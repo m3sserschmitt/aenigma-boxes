@@ -79,7 +79,7 @@ vagrant up
 The repository already includes a ready-made `Vagrantfile`, so this is all you need to
 do.
 
-#### Option A: Create your own project folder
+#### Option B: Create your own project folder
 
 1. Create a new empty folder anywhere on your computer.
 2. Inside it, create a file named exactly `Vagrantfile` (no file extension) with this
