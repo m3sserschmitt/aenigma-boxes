@@ -1,23 +1,23 @@
-# Aenigma Vagrant Boxes
+## Aenigma Vagrant Boxes
 
 Ready-to-run virtual images for Aenigma, built for both **VirtualBox** and **libvirt/QEMU**.
 
-## Step 1: Install Vagrant
+### Step 1: Install Vagrant
 
 Download and install Vagrant from the official page for your operating system:
 https://developer.hashicorp.com/vagrant/downloads
 
-## Step 2: Install a virtualization provider
+### Step 2: Install a virtualization provider
 
 You only need **one** of the following, depending on your operating system and preference.
 
-### Option A: VirtualBox (easiest — works on Windows, macOS, and Linux)
+#### Option A: VirtualBox (easiest — works on Windows, macOS, and Linux)
 
 1. Go to: https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html
 2. Download the installer for your operating system.
 3. Run the installer and follow the on-screen instructions (default options are fine).
 
-### Option B: QEMU/libvirt (Linux only)
+#### Option B: QEMU/libvirt (Linux only)
 
 If you're on Ubuntu or Debian, open a terminal and run:
 
@@ -59,11 +59,11 @@ support it out of the box like it does VirtualBox):
 vagrant plugin install vagrant-libvirt
 ```
 
-## Step 3: Get the box running
+### Step 3: Get the box running
 
 You have two options — pick whichever is easier for you.
 
-### Option 1: Clone the repository (simplest)
+#### Option A: Clone the repository (simplest)
 
 Download the repository using this
 [link](https://github.com/m3sserschmitt/aenigma-boxes/archive/refs/heads/gh-pages.zip)
@@ -79,7 +79,7 @@ vagrant up
 The repository already includes a ready-made `Vagrantfile`, so this is all you need to
 do.
 
-### Option 2: Create your own project folder
+#### Option A: Create your own project folder
 
 1. Create a new empty folder anywhere on your computer.
 2. Inside it, create a file named exactly `Vagrantfile` (no file extension) with this
@@ -122,7 +122,7 @@ Either way, Vagrant will automatically detect whichever provider you installed
 (VirtualBox or libvirt) and download the matching image the first time you run it —
 this may take a few minutes depending on your internet connection.
 
-## Connecting to the VM
+### Connecting to the VM
 
 Once `vagrant up` finishes, you can log into the VM's command line with:
 
@@ -149,13 +149,13 @@ vagrant destroy   # delete the VM entirely (removes its disk too)
 > Run these from the same folder as the `Vagrantfile` — Vagrant uses that folder to
 > know which VM you're referring to.
 
-## Updating to a newer version later
+### Updating to a newer version later
 
 ```bash
 vagrant box update
 ```
 
-## Troubleshooting tips
+### Troubleshooting tips
 
 - If you installed **both** VirtualBox and libvirt, you can force which one to use:
   ```bash
@@ -185,6 +185,6 @@ membership and typically resolves it. If it persists after that, try:
 This repository is licensed under the MIT License. Feel free to copy, modify and
 distribute it - see the [LICENSE](LICENSE) file for details.
 
-## Contact
+### Contact
 
 You can report errors or suggest improvements at [contact@aenigma.ro](mailto:contact@aenigma.ro)
